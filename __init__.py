@@ -1,6 +1,13 @@
 from flask import Flask
+from sqlalchemy import create_engine, asc
+from database_setup import User, Base, Category, Item
 
 app = Flask(__name__)
+
+# Connect to catalog database
+# engine = create_engine('sqlite:///item_catalog.db')
+engine = create_engine('postgresql://catalog:password@localhost/catalog')
+Base.metadata.bind = engine
 
 
 @app.route('/')
