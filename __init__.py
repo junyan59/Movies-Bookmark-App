@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import User, Base, Category, Item
@@ -18,24 +18,24 @@ session = DBSession()
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-    return "Homepage-This will show the list of categories."
+    return render_template('catalog.html')
 
 
 @app.route('/catalog/<int:category_id>')
 @app.route('/catalog/<int:category_id>/items/')
 def showCategory(category_id):
-    return "This will show the list of items of a category."
+    return render_template('category.html')
 
 
 @app.route('/catalog/<int:category_id>/items/<int:item_id>/')
 def showItem(category_id, item_id):
-    return "This will show a single item of a category."
+    return render_template('item.html')
 
 
 @app.route('/catalog/create', methods=['GET', 'POST'])
 @login_required
 def addItem():
-    return "This will let you add an item."
+    return render_template('addItem.html')
 
 
 @app.route(
@@ -43,7 +43,7 @@ def addItem():
     methods=['GET', 'POST'])
 @login_required
 def editItem(category_id, item_id):
-    return "This will let you edit an item."
+    return render_template('editItem.html')
 
 
 @app.route(
@@ -51,12 +51,12 @@ def editItem(category_id, item_id):
     methods=['GET', 'POST'])
 @login_required
 def deleteItem(category_id, item_id):
-    return "This will let you delete a category item."
+    return render_template('deleteItem.html')
 
 
 @app.route('/login')
 def login():
-    return "This will show links to fb and google login."
+    return render_template('login.html')
 
 
 @app.route('/logout')
