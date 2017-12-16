@@ -1,0 +1,43 @@
+.header {
+    background: #d6e8f9;
+    border-bottom: .5rem solid #778599;
+    display: block;
+    height: 10rem;
+    width: 100%;
+}
+
+.title {
+	text-transform: uppercase;
+	color: #4d74ca;
+    float: left;
+    margin-left: 2rem;
+}
+
+.user_click {
+	font-size: 1.5rem;
+	font-weight: 400;
+	color: #798193;
+	float: right;
+	margin-right: 2rem;
+}
+
+.list_header {
+	font-weight: 700;
+	margin-bottom: 1.5rem;
+	display: block;
+	text-transform: capitalize;
+}
+
+.category .category_name {
+	text-transform: capitalize;
+}
+
+.item .item_name {
+	text-transform: capitalize;
+}
+
+.item_type {
+	color: #727a82;
+	font-style: italic;
+	text-transform: capitalize;
+}
