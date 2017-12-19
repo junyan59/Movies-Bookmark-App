@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% block content %}
+	<div class="row">
+		<div class="category_item">
+		    <h3 class="list_header">Add New Movie</h3>
+			<form action="#" method="post" class="item_form">
+				<fieldset>
+				    <div class="name_row">
+						<label for="" class="form_label">Name:</label>
+						<input type ="text" class="form_control" name="name">
+					</div>
+					<div class="discription_row">
+					    <label for="" class="form_label">Description:</label>
+					</div>
+					<div class="discription_input">
+					    <textarea name="description" id="" cols="60" rows="15" class="form_text"></textarea>
+					</div>
+					<div class="category_row">
+					    <label for="" class="form_label">Category:</label>
+					    <select class="form_select" name="category">
+						    {% for category in categories %}
+							    <option value="{{category.id}}">{{category.name}}</option>
+						    {% endfor %}
+					    </select>
+					</div>
+				</fieldset>
+				<input type="submit" value="Add Movie">
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
