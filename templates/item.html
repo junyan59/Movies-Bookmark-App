@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+	<div class="row">
+		<div class="category_item">
+			<h3 class="list_header">{{item.name}}</h3>
+			<div class="item_description">
+				{{item.description}}
+			</div>
+			<div class="item_click">
+				<a href="{{url_for('showCategory', category_id = item.category_id)}}" class="click_back">Back</a>
+
+				{% if 'username' in session and creator.id == session['user_id'] %}
+					<a href="{{url_for('editItem', category_id = item.category_id, item_id = item.id)}}" class="click_edit">Edit</a>
+					<a href="{{url_for('deleteItem', category_id = item.category_id, item_id = item.id)}}" class="click_delete">Delete</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
