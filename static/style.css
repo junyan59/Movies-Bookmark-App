@@ -41,3 +41,33 @@
 	font-style: italic;
 	text-transform: capitalize;
 }
+
+.item_add {
+	font-size: 2rem;
+}
+
+.item_description {
+	margin-bottom: 1.5rem;
+}
+
+.click_edit,
+.click_delete,
+.click_back {
+	display: inline;
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-right: .2rem;
+}
+
+.form_label {
+	display: inline;
+	font-size: 2rem;
+	font-weight: 700;
+	text-transform: capitalize;
+	float: left;
+}
+
+.form_text {
+	font-size: 2rem;
+}
