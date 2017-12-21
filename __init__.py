@@ -18,24 +18,53 @@ session = DBSession()
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-    return render_template('catalog.html')
+    categories = session.query(Category).order_by(asc(Category.name))
+    items = session.query(Item).order_by(asc(Item.name))
+    return render_template('catalog.html', categories=categories, items=items)
 
 
 @app.route('/catalog/<int:category_id>')
 @app.route('/catalog/<int:category_id>/items/')
 def showCategory(category_id):
-    return render_template('category.html')
+    categories = session.query(Category).order_by(asc(Category.name))
+    category = session.query(Category).filter_by(id=category_id).first()
+    categoryName = category.name
+    items = session.query(Item).filter_by(
+        category_id=category_id).order_by(asc(Item.name))
+    count = session.query(
+        Item).filter_by(category_id=category_id).count()
+    return render_template(
+        'category.html', categories=categories, items=items,
+        categoryName=categoryName, count=count)
 
 
 @app.route('/catalog/<int:category_id>/items/<int:item_id>/')
 def showItem(category_id, item_id):
-    return render_template('item.html')
+    item = session.query(Item).filter_by(id=item_id).first()
+    creator = getUserInfo(item.user_id)
+    return render_template('item.html', item=item, creator=creator)
 
 
 @app.route('/catalog/create', methods=['GET', 'POST'])
 @login_required
 def addItem():
-    return render_template('addItem.html')
+    if request.method == 'POST':
+        if not request.form['name']:
+            flash('Please add a movie name for the category.')
+            return redirect(url_for('addItem'))
+        if not request.form['description']:
+            flash('Please add a description for the movie.')
+            return redirect(url_for('addItem'))
+        newItem = Item(name=request.form['name'], description=request.form[
+            'description'], category_id=request.form['category'],
+            user_id=login_session['user_id'])
+        session.add(newItem)
+        session.commit()
+        flash('New Item %s Successfully Created' % newItem.name)
+        return redirect(url_for('showCatalog'))
+    else:
+        categories = session.query(Category).order_by(asc(Category.name))
+        return render_template('addItem.html', categories=categories)
 
 
 @app.route(
@@ -43,7 +72,26 @@ def addItem():
     methods=['GET', 'POST'])
 @login_required
 def editItem(category_id, item_id):
-    return render_template('editItem.html')
+    item = session.query(Item).filter_by(id=item_id).first()
+    creator = getUserInfo(item.user_id)
+    if creator.id != login_session['user_id']:
+        return redirect(url_for('showCatalog'))
+    categories = session.query(Category).order_by(asc(Category.name))
+    if request.method == 'POST':
+        if request.form['name']:
+            item.name = request.form['name']
+        if request.form['category']:
+            item.category_id = request.form['category']
+        if request.form['description']:
+            item.description = request.form['description']
+        session.add(item)
+        session.commit()
+        flash('Categroy Item %s Successfully Edited' % item.name)
+        return redirect(url_for(
+            'showItem', category_id=item.category_id, item_id=item.id))
+    else:
+        return render_template(
+            'editItem.html', categories=categories, item=item)
 
 
 @app.route(
@@ -51,7 +99,17 @@ def editItem(category_id, item_id):
     methods=['GET', 'POST'])
 @login_required
 def deleteItem(category_id, item_id):
-    return render_template('deleteItem.html')
+    item = session.query(Item).filter_by(id=item_id).first()
+    creator = getUserInfo(item.user_id)
+    if creator.id != login_session['user_id']:
+        return redirect(url_for('showCatalog'))
+    if request.method == 'POST':
+        session.delete(item)
+        session.commit()
+        flash('Item Successfully Deleted')
+        return redirect(url_for('showCategory', category_id=item.category_id))
+    else:
+        return render_template('deleteItem.html', item=item)
 
 
 @app.route('/login')
