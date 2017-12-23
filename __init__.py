@@ -14,6 +14,8 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# Homepage - Show all movie categories
+
 
 @app.route('/')
 @app.route('/catalog')
@@ -21,6 +23,8 @@ def showCatalog():
     categories = session.query(Category).order_by(asc(Category.name))
     items = session.query(Item).order_by(asc(Item.name))
     return render_template('catalog.html', categories=categories, items=items)
+
+# Show category Items
 
 
 @app.route('/catalog/<int:category_id>')
@@ -37,12 +41,16 @@ def showCategory(category_id):
         'category.html', categories=categories, items=items,
         categoryName=categoryName, count=count)
 
+# Show an specific movie item
+
 
 @app.route('/catalog/<int:category_id>/items/<int:item_id>/')
 def showItem(category_id, item_id):
     item = session.query(Item).filter_by(id=item_id).first()
     creator = getUserInfo(item.user_id)
     return render_template('item.html', item=item, creator=creator)
+
+# Create a new movie item
 
 
 @app.route('/catalog/create', methods=['GET', 'POST'])
@@ -65,6 +73,8 @@ def addItem():
     else:
         categories = session.query(Category).order_by(asc(Category.name))
         return render_template('addItem.html', categories=categories)
+
+# Edit a movie item
 
 
 @app.route(
@@ -92,6 +102,8 @@ def editItem(category_id, item_id):
     else:
         return render_template(
             'editItem.html', categories=categories, item=item)
+
+# Delete a movie item
 
 
 @app.route(
