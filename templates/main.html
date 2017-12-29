@@ -12,10 +12,28 @@
 	<title>Movie Bookmark</title>
 </head>
 <body>
-	<div class="content">
-		<div class="container">
-			{% block content %}
-			{% endblock %}
+	<div class="wrapper">
+		<div class="header">
+            <a href="/" class="header_title">
+				<h1 class="title">Movies Bookmark</h1>
+			</a>
+			<div class="user_click">
+				{%if 'username' not in session %}
+				<a href="{{url_for('login')}}" class="user_login">
+					Click Here to Login
+				</a>
+				{% else %}
+				<a href="{{url_for('logout')}}" class="user_logout">
+					Logout
+				</a>
+				{% endif %}
+			</div>
+		</div>
+		<div class="content">
+			<div class="container">
+				{% block content %}
+				{% endblock %}
+			</div>
 		</div>
 	</div>
 </body>
