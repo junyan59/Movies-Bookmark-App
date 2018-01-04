@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Movies Bookmark App</title>
+	<title>Movies Bookmark</title>
 
 	<!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -13,19 +13,77 @@
 </head>
 <body>
 
-<!-- GOOGLE PLUS SIGN IN BUTTON-->
+<!--FACEBOOK SIGN IN -->
+	<script>
+		window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '493032701090332',
+		      xfbml      : true,
+		      version    : 'v2.11'
+		    });
+		    FB.AppEvents.logPageView();
+		};
 
-<div id="signInButton">
-	<span class="g-signin"
-		data-scope="openid email"
-		data-clientid="269613147002-vu2v01d7of2htvtbt6t8ta5u6oev87c7.apps.googleusercontent.com"
-		data-redirecturi="postmessage"
-		data-accesstype="offline"
-		data-cookiepolicy="single_host_origin"
-		data-callback="signInCallback"
-		data-approvalprompt="force">
-	</span>
-</div>
+		// Load the SDK asynchronously
+		(function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "https://connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	    }(document, 'script', 'facebook-jssdk'));
+
+		// Here we run a very simple test of the Graph API after login is
+		// successful.  See statusChangeCallback() for when this call is made.
+		function sendTokenToServer() {
+			var access_token = FB.getAuthResponse()['accessToken'];
+			console.log(access_token)
+			console.log('Welcome!  Fetching your information.... ');
+			FB.api('/me', function(response) {
+				console.log('Successful login for: ' + response.name);
+				$.ajax({
+					type: 'POST',
+					url: '/fbconnect?state={{STATE}}',
+					processData: false,
+					data: access_token,
+					contentType: 'application/octet-stream; charset=utf-8',
+					success: function(result) {
+						// Handle or verify the server response if necessary.
+						if (result) {
+							$('#login').html('Logging in...')
+							window.location.href = "/catalog";
+						} else {
+							$('#login').html('Failed to make a server-side call. Check your configuration and console.');
+						}
+					}
+				});
+			});
+		}
+	</script>
+
+	<fb:login-button size="large" scope="public_profile,email" onlogin="sendTokenToServer();">
+		<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+	</fb:login-button>
+
+
+<!--END FACEBOOK SIGN IN -->
+
+
+<!-- GOOGLE PLUS SIGN IN BUTTON-->
+	<div class="login_separator">OR</div>
+
+	<div id="signInButton">
+		<span class="g-signin"
+			data-scope="openid email"
+			data-clientid="269613147002-vu2v01d7of2htvtbt6t8ta5u6oev87c7.apps.googleusercontent.com"
+			data-redirecturi="postmessage"
+			data-accesstype="offline"
+			data-cookiepolicy="single_host_origin"
+			data-callback="signInCallback"
+			data-approvalprompt="force">
+		</span>
+	</div>
+
 
 <div id="result"></div>
 
