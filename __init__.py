@@ -12,6 +12,7 @@ import requests
 import os
 import random
 import string
+from login_decorator import login_required
 
 app = Flask(__name__)
 
