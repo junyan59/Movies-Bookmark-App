@@ -383,20 +383,26 @@ def fbdisconnect():
     result = h.request(url, 'DELETE')[1]
     return "you have been logged out"
 
+# JSON APIs to view Catalog Information
+
 
 @app.route('/catalog/JSON')
 def catalogJSON():
-    return "This will show the list of categories in JSON format."
+    categories = session.query(Category).all()
+    return jsonify(categories=[category.serialize for category in categories])
 
 
 @app.route('/catalog/<int:category_id>/items/JSON')
 def categoryJSON(category_id):
-    return "This will show the list of items of a category in JSON format."
+    items = session.query(Item).filter_by(
+        category_id=category_id).all()
+    return jsonify(items=[item.serialize for item in items])
 
 
 @app.route('/catalog/<int:category_id>/items/<int:item_id>/JSON')
 def itemJSON(category_id, item_id):
-    return "This will show a single item of a category in JSON format."
+    item = session.query(Item).filter_by(id=item_id).first()
+    return jsonify(item=[item.serialize])
 
 if __name__ == '__main__':
     app.debug = True
