@@ -147,6 +147,8 @@ def login():
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
+# Disconnect based on provider
+
 
 @app.route('/logout')
 def logout():
@@ -192,6 +194,8 @@ def getUserID(email):
         return user.id
     except:
         return None
+
+# GConnect
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -284,6 +288,8 @@ def gconnect():
 
     return output
 
+# DISCONNECT - Revoke a current user's token and reset their login_session
+
 
 @app.route('/gdisconnect')
 def gdisconnect():
@@ -306,6 +312,8 @@ def gdisconnect():
             'Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
+
+# Facebook connect
 
 
 @app.route('/fbconnect', methods=['POST'])
@@ -370,6 +378,8 @@ def fbconnect():
     output += login_session['username']
     output += '!</h2>'
     return output
+
+# Facebook Disconnect
 
 
 @app.route('/fbdisconnect')
