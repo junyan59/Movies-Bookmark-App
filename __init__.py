@@ -18,6 +18,7 @@ app = Flask(__name__)
 
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())[
     'web']['client_id']
+APPLICATION_NAME = "Movies Bookmark Application"
 
 # Connect to catalog database
 # engine = create_engine('sqlite:///item_catalog.db')
