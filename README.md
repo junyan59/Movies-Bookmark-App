@@ -1,7 +1,7 @@
 # Movies Bookmark Web Application
 
 ## Description
-The web app is built with Python Flask framework, which allows users to store, manage and share their movie watching history. The web app persists user data in Postgres database and implements a full CRUD (create, read, update and delete) RESTful APIs and UI to movies users watched. The app also offers a third-party authentication & authorization service such that users can login/register via their Google or Facebook Account.
+The web app is built with Python Flask framework, which allows users to store, manage and share their movie watching history. The web app persists user data in Postgres database and implements a full CRUD (create, read, update and delete) RESTful APIs and UI to movies users watched. The app also offers a third-party authentication & authorization service such that users can login/register via their Google or Facebook Account. I also configured and published the application on an Ubuntu server offered by AWS Lightsail. (https://github.com/junyan59/Linux-server-configuration)
 
 ## Skills used for this project
 - Python
