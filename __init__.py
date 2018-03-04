@@ -21,8 +21,8 @@ CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())[
 APPLICATION_NAME = "Movies Bookmark Application"
 
 # Connect to catalog database
-# engine = create_engine('sqlite:///item_catalog.db')
-engine = create_engine('postgresql://catalog:password@localhost/catalog')
+engine = create_engine('sqlite:///item_catalog.db')
+# engine = create_engine('postgresql://catalog:password@localhost/catalog')
 Base.metadata.bind = engine
 
 # Create session
